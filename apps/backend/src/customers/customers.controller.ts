@@ -1,13 +1,17 @@
 import { Controller, Post, Body } from '@nestjs/common';
+import { ZodValidationPipe } from 'nestjs-zod';
+import { CreateCustomerSchema, CreateCustomerDto } from './schemas/create-customer.schema';
 import { CustomersService } from './customers.service';
-import { CreateCustomerDto } from './dto/create-customer.dto';
 
 @Controller('customers')
 export class CustomersController {
-  constructor(private readonly customersService: CustomersService) {}
+  constructor(private readonly service: CustomersService) {}
 
   @Post()
-  async create(@Body() createCustomerDto: CreateCustomerDto) {
-    return this.customersService.create(createCustomerDto);
+  create(
+    @Body(new ZodValidationPipe(CreateCustomerSchema))
+    dto: CreateCustomerDto,
+  ) {
+    return this.service.create(dto);
   }
 }

@@ -1,9 +1,9 @@
+import { CreateCustomerDto } from './schemas/create-customer.schema';
 import { CustomersService } from './customers.service';
-import { CreateCustomerDto } from './dto/create-customer.dto';
 export declare class CustomersController {
-    private readonly customersService;
-    constructor(customersService: CustomersService);
-    create(createCustomerDto: CreateCustomerDto): Promise<{
+    private readonly service;
+    constructor(service: CustomersService);
+    create(dto: CreateCustomerDto): Promise<{
         id: number;
         name: string;
         email: string;
