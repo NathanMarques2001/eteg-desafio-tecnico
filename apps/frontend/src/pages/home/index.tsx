@@ -15,10 +15,7 @@ export default function CustomerForm() {
   const [colors, setColors] = useState<Color[]>([]);
   const [loadingColors, setLoadingColors] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [popup, setPopup] = useState<
-    | { type: "error" | "success"; message: string }
-    | null
-  >(null);
+  const [popup, setPopup] = useState<{ type: "error" | "success"; message: string } | null>(null);
 
   const {
     register,
@@ -26,7 +23,7 @@ export default function CustomerForm() {
     setValue,
     watch,
     formState: { errors },
-    reset,
+    reset
   } = useForm<CustomerSchema>({
     resolver: zodResolver(customerSchema),
     defaultValues: {
@@ -34,8 +31,8 @@ export default function CustomerForm() {
       email: "",
       cpf: "",
       id_color: 0,
-      observations: "",
-    },
+      observations: ""
+    }
   });
 
   const cpfValue = watch("cpf");
@@ -69,7 +66,7 @@ export default function CustomerForm() {
 
     const payload = {
       ...data,
-      cpf: data.cpf.replace(/\D/g, ""),
+      cpf: data.cpf.replace(/\D/g, "")
     };
 
     try {
@@ -77,12 +74,11 @@ export default function CustomerForm() {
       setPopup({ type: "success", message: "Cliente cadastrado com sucesso!" });
       reset();
     } catch (err: any) {
-      const msg =
-        err.response?.data?.message
-          ? Array.isArray(err.response.data.message)
-            ? err.response.data.message.join(", ")
-            : err.response.data.message
-          : "Erro ao cadastrar cliente";
+      const msg = err.response?.data?.message
+        ? Array.isArray(err.response.data.message)
+          ? err.response.data.message.join(", ")
+          : err.response.data.message
+        : "Erro ao cadastrar cliente";
 
       setPopup({ type: "error", message: msg });
     } finally {
@@ -92,13 +88,7 @@ export default function CustomerForm() {
 
   return (
     <>
-      {popup && (
-        <Popup
-          type={popup.type}
-          message={popup.message}
-          onClose={() => setPopup(null)}
-        />
-      )}
+      {popup && <Popup type={popup.type} message={popup.message} onClose={() => setPopup(null)} />}
       <Navbar />
       <div id="home-container">
         <form onSubmit={handleSubmit(onSubmit)} id="home-form">
@@ -156,11 +146,7 @@ export default function CustomerForm() {
             {loadingColors ? (
               <Loading />
             ) : (
-              <select
-                id="home-form-select"
-                className="home-form-input"
-                {...register("id_color")}
-              >
+              <select id="home-form-select" className="home-form-input" {...register("id_color")}>
                 <option value={0}>Selecione uma cor</option>
                 {colors.map((color) => (
                   <option key={color.id} value={color.id}>
@@ -169,9 +155,7 @@ export default function CustomerForm() {
                 ))}
               </select>
             )}
-            {errors.id_color && (
-              <p className="form-error">{errors.id_color.message}</p>
-            )}
+            {errors.id_color && <p className="form-error">{errors.id_color.message}</p>}
           </div>
 
           <div className="home-form-field-container">
@@ -182,9 +166,7 @@ export default function CustomerForm() {
               className="home-form-input"
               {...register("observations")}
             />
-            {errors.observations && (
-              <p className="form-error">{errors.observations.message}</p>
-            )}
+            {errors.observations && <p className="form-error">{errors.observations.message}</p>}
           </div>
 
           <button id="home-form-button" type="submit" disabled={submitting}>

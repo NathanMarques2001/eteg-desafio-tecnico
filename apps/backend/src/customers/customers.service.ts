@@ -18,7 +18,9 @@ export class CustomersService {
         error.code === 'P2002'
       ) {
         const campo = error.meta?.target?.[0] ?? 'campo único';
-        throw new ConflictException(`Já existe um registro com o ${campo} informado.`);
+        throw new ConflictException(
+          `Já existe um registro com o ${campo} informado.`,
+        );
       }
 
       throw error;

@@ -1,7 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()]
+  plugins: [react()],
+  server: {
+    host: true, // Para o Docker funcionar corretamente
+    port: 5173 // Define a porta interna do contêiner
+  }
 });

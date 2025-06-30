@@ -22,24 +22,24 @@
 }
 
 .popup-card-title {
-    font-weight: bold;
-    font-size: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--color-background-dark);
-    width: 100%;
-    text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-background-dark);
+  width: 100%;
+  text-align: center;
 }
 
 #popup-card-title-error {
-color: var(--color-danger);
+  color: var(--color-danger);
 }
 
 #popup-card-title-success {
-color: var(--color-success);
+  color: var(--color-success);
 }
 
 #popup-card-message {
-    margin: 1rem 0 ;
+  margin: 1rem 0;
 }
 
 #popup-card-button {
@@ -55,10 +55,16 @@ color: var(--color-success);
 }
 
 #popup-card-button:hover {
-    background-color: var(--color-primary-blue-hover);
+  background-color: var(--color-primary-blue-hover);
 }
 
 @keyframes fadeIn {
-  from { transform: translateY(-10px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
