@@ -14,3 +14,9 @@ h5,
 h6 {
   font-family: var(--font-primary);
 }
+
+input::placeholder,
+textarea::placeholder {
+  font-family: var(--font-secondary);
+  font-size: 12px;
+}
