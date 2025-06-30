@@ -1,2 +1,31 @@
-:root {
+@media (max-width: 600px) {
+  #home-container {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+  }
+
+  #home-form {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  #home-img {
+    width: 80%;
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  #home-container {
+    gap: 5%;
+  }
+
+  #home-form {
+    width: 45%;
+  }
+
+  #home-img {
+    width: 40%;
+  }
 }
