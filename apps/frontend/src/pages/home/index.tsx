@@ -1,39 +1,52 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import formImg from "../../assets/form-img.png";
-import "./style.css";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { customerSchema, type CustomerSchema } from "../../types/schemas/customer";
+import formImg from "../../assets/form-img.png";
 import cpfMask from "../../utils/cpf-mask";
-import type Customer from "../../types/customer";
-import type Color from "../../types/color";
 import Navbar from "../../components/navbar";
 import Popup from "../../components/popup";
+import "./style.css";
+import type Color from "../../types/color";
 
 export default function CustomerForm() {
-  const [form, setForm] = useState<Customer>({
-    name: "",
-    email: "",
-    cpf: "",
-    id_color: "",
-    observations: ""
-  });
-
   const [colors, setColors] = useState<Color[]>([]);
   const [loadingColors, setLoadingColors] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-    const [popup, setPopup] = useState<
+  const [popup, setPopup] = useState<
     | { type: "error" | "success"; message: string }
     | null
   >(null);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<CustomerSchema>({
+    resolver: zodResolver(customerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      cpf: "",
+      id_color: 0,
+      observations: "",
+    },
+  });
+
+  const cpfValue = watch("cpf");
 
   useEffect(() => {
     async function loadColors() {
       setLoadingColors(true);
       try {
         const response = await axios.get("http://localhost:3000/colors");
-        console.log(response);
         setColors(response.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       } finally {
         setLoadingColors(false);
       }
@@ -41,38 +54,28 @@ export default function CustomerForm() {
     loadColors();
   }, []);
 
-  function handleChange(
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) {
-    const { name, value } = e.target;
-    if (name === "cpf") {
-      setForm((prev) => {
-        const masked = cpfMask(value);
-        if (masked === prev.cpf) return prev; // evita re-render inútil
-        return { ...prev, cpf: masked };
-      });
-    } else {
-      setForm((prev) => ({ ...prev, [name]: value }));
+  // Aplica máscara de CPF reativamente
+  useEffect(() => {
+    const unmasked = cpfValue.replace(/\D/g, "");
+    const masked = cpfMask(unmasked);
+    if (masked !== cpfValue) {
+      setValue("cpf", masked);
     }
-  }
+  }, [cpfValue, setValue]);
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  const onSubmit = async (data: CustomerSchema) => {
     setSubmitting(true);
     setPopup(null);
 
-    const cpfSemMascara = form.cpf.replace(/\D/g, "");
-
     const payload = {
-      ...form,
-      cpf: cpfSemMascara,
-      id_color: Number(form.id_color)
+      ...data,
+      cpf: data.cpf.replace(/\D/g, ""),
     };
 
     try {
       await axios.post("http://localhost:3000/customers", payload);
       setPopup({ type: "success", message: "Cliente cadastrado com sucesso!" });
-      setForm({ name: "", email: "", cpf: "", id_color: "", observations: "" });
+      reset();
     } catch (err: any) {
       const msg =
         err.response?.data?.message
@@ -85,20 +88,20 @@ export default function CustomerForm() {
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <>
-          {popup && (
+      {popup && (
         <Popup
           type={popup.type}
           message={popup.message}
           onClose={() => setPopup(null)}
         />
-      ) }
+      )}
       <Navbar />
       <div id="home-container">
-        <form onSubmit={handleSubmit} id="home-form">
+        <form onSubmit={handleSubmit(onSubmit)} id="home-form">
           <div id="home-form-header">
             <div id="home-title-container">
               <h1 id="home-title">Cadastro de Cliente </h1>
@@ -112,13 +115,11 @@ export default function CustomerForm() {
             </label>
             <input
               type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
               placeholder="Insira seu nome completo"
               className="home-form-input"
+              {...register("name")}
             />
+            {errors.name && <p className="form-error">{errors.name.message}</p>}
           </div>
 
           <div className="home-form-field-container">
@@ -127,13 +128,11 @@ export default function CustomerForm() {
             </label>
             <input
               type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
               placeholder="email@example.com"
               className="home-form-input"
+              {...register("email")}
             />
+            {errors.email && <p className="form-error">{errors.email.message}</p>}
           </div>
 
           <div className="home-form-field-container">
@@ -142,14 +141,12 @@ export default function CustomerForm() {
             </label>
             <input
               type="text"
-              name="cpf"
-              value={form.cpf}
-              onChange={handleChange}
               maxLength={14}
-              required
               placeholder="123.456.789-10"
               className="home-form-input"
+              {...register("cpf")}
             />
+            {errors.cpf && <p className="form-error">{errors.cpf.message}</p>}
           </div>
 
           <div className="home-form-field-container">
@@ -161,38 +158,40 @@ export default function CustomerForm() {
             ) : (
               <select
                 id="home-form-select"
-                name="id_color"
-                value={form.id_color}
-                onChange={handleChange}
-                required
+                className="home-form-input"
+                {...register("id_color")}
               >
-                <option value="">Selecione uma cor</option>
+                <option value={0}>Selecione uma cor</option>
                 {colors.map((color) => (
-                  <option key={color.id} value={color.id.toString()}>
+                  <option key={color.id} value={color.id}>
                     {color.name}
                   </option>
                 ))}
               </select>
             )}
+            {errors.id_color && (
+              <p className="form-error">{errors.id_color.message}</p>
+            )}
           </div>
 
           <div className="home-form-field-container">
             <label className="home-form-label">Observações</label>
-            <br />
             <textarea
               rows={4}
-              name="observations"
-              value={form.observations}
-              onChange={handleChange}
               placeholder="Digite observações que achar necessárias"
               className="home-form-input"
-            ></textarea>
+              {...register("observations")}
+            />
+            {errors.observations && (
+              <p className="form-error">{errors.observations.message}</p>
+            )}
           </div>
 
           <button id="home-form-button" type="submit" disabled={submitting}>
             {submitting ? "Enviando..." : "Cadastrar"}
           </button>
         </form>
+
         <img
           id="home-img"
           src={formImg}
