@@ -1,6 +1,9 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { CreateCustomerSchema, CreateCustomerDto } from './schemas/create-customer.schema';
+import {
+  CreateCustomerSchema,
+  CreateCustomerDto,
+} from './schemas/create-customer.schema';
 import { CustomersService } from './customers.service';
 
 @Controller('customers')

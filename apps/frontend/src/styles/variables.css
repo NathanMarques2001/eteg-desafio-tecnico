@@ -1,0 +1,24 @@
+:root {
+  /* Paleta de cores */
+  --color-primary-blue: #1664ff;
+  --color-primary-blue-hover: rgb(6, 51, 118);
+  --color-navbar: #1a273d;
+  --color-background-dark: #000000;
+
+  --color-secondary-orange: #f76f08;
+  --color-secondary-orange-hover: #e06506;
+
+  --color-borders: #6c757d;
+
+  --color-background-light: #ffffff;
+  --color-background-gray: #f8f9fa;
+
+  --color-success: #198754;
+  --color-danger: #dc3545;
+
+  /* Tipografia */
+  --font-primary: "Anybody", sans-serif;
+  --font-secondary: "Inter", sans-serif;
+
+  --transition-default: all 0.2s ease-in-out;
+}

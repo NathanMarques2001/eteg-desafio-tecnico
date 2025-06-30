@@ -1,7 +1,7 @@
-export declare class CreateCustomerDto {
+export default interface Customer {
   name: string;
   email: string;
   cpf: string;
-  id_color: number;
+  id_color: string;
   observations: string;
 }

@@ -3,7 +3,7 @@ import { CustomersModule } from './customers/customers.module';
 import { ColorModule } from './colors/color.module';
 
 @Module({
-  imports: [CustomersModule,ColorModule],
+  imports: [CustomersModule, ColorModule],
   controllers: [],
   providers: [],
 })

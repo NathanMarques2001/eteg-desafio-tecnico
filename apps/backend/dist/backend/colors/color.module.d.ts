@@ -1,2 +1,1 @@
-export declare class ColorModule {
-}
+export declare class ColorModule {}

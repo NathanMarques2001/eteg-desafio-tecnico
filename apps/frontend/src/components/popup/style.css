@@ -1,0 +1,64 @@
+#popup-overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.popup-card {
+  min-width: 20%;
+  max-width: 90%;
+  padding: 1.2rem;
+  border-radius: 0.6rem;
+  animation: fadeIn 0.3s ease-out;
+  background-color: var(--color-background-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-card-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-background-dark);
+    width: 100%;
+    text-align: center;
+}
+
+#popup-card-title-error {
+color: var(--color-danger);
+}
+
+#popup-card-title-success {
+color: var(--color-success);
+}
+
+#popup-card-message {
+    margin: 1rem 0 ;
+}
+
+#popup-card-button {
+  width: 40%;
+  padding: 0.4rem;
+  border-radius: 0.2rem;
+  border: none;
+  background-color: var(--color-primary-blue);
+  color: var(--color-background-light);
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+#popup-card-button:hover {
+    background-color: var(--color-primary-blue-hover);
+}
+
+@keyframes fadeIn {
+  from { transform: translateY(-10px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}

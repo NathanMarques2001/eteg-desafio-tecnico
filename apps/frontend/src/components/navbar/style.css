@@ -1,0 +1,19 @@
+#navbar {
+  background-color: var(--color-navbar);
+  padding: 0.8rem 2rem;
+  top: 0;
+  z-index: 2;
+}
+
+#navbar-container {
+  display: flex;
+  align-items: center;
+}
+
+#navbar-logo {
+  height: 4rem;
+}
+
+#navbar-title {
+  color: var(--color-background-light);
+}
