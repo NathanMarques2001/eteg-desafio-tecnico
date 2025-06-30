@@ -20,10 +20,15 @@ eteg-desafio-tecnico/
 ├── apps/
 │   ├── backend/
 │   └── frontend/
-├── docker-compose.yml
+├── .dockerignore
 ├── .env
+├── .eslintrc.cjs
 ├── .gitignore
-└── README.md
+├── docker-compose.yml
+├── package-lock.json
+├── package.json
+├── README.md
+└── tsconfig.base.json
 ```
 
 Cada aplicação (```backend``` e ```frontend```) possui seu próprio ```Dockerfile``` para a construção de imagens otimizadas e independentes.
