@@ -16,5 +16,6 @@
   --font-primary: "Anybody", sans-serif;
   --font-secondary: "Inter", sans-serif;
 
+  /* Transicao botao */
   --transition-default: all 0.2s ease-in-out;
 }

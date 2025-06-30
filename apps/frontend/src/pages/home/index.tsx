@@ -7,6 +7,7 @@ import formImg from "../../assets/form-img.png";
 import cpfMask from "../../utils/cpf-mask";
 import Navbar from "../../components/navbar";
 import Popup from "../../components/popup";
+import Loading from "../../components/loading";
 import "./style.css";
 import type Color from "../../types/color";
 
@@ -54,7 +55,6 @@ export default function CustomerForm() {
     loadColors();
   }, []);
 
-  // Aplica máscara de CPF reativamente
   useEffect(() => {
     const unmasked = cpfValue.replace(/\D/g, "");
     const masked = cpfMask(unmasked);
@@ -154,7 +154,7 @@ export default function CustomerForm() {
               Cor<span className="home-form-required-field">*</span>
             </label>
             {loadingColors ? (
-              <p>Carregando cores...</p>
+              <Loading />
             ) : (
               <select
                 id="home-form-select"
@@ -188,7 +188,7 @@ export default function CustomerForm() {
           </div>
 
           <button id="home-form-button" type="submit" disabled={submitting}>
-            {submitting ? "Enviando..." : "Cadastrar"}
+            {submitting ? <Loading /> : "Cadastrar"}
           </button>
         </form>
 
